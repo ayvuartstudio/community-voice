@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Voice Tool — Ōtautahi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #faf9f7;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 620px;
+      width: 100%;
+    }
+
+    .label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1D9E75;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: #1a1a1a;
+      background: #fff;
+      resize: vertical;
+      line-height: 1.6;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #1D9E75;
+      box-shadow: 0 0 0 3px rgba(29,158,117,0.1);
+    }
+
+    textarea::placeholder {
+      color: #aaa;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    button {
+      margin-top: 12px;
+      background: #1D9E75;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+    }
+
+    button:hover { background: #0F6E56; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 2rem 0;
+    }
+
+    .response-box {
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid #1D9E75;
+      background: #f0faf6;
+      border-radius: 0 8px 8px 0;
+      display: none;
+    }
+
+    .response-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: #1D9E75;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .response-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      line-height: 1.8;
+      color: #1a1a1a;
+      font-style: italic;
+    }
+
+    .error {
+      margin-top: 1rem;
+      font-size: 13px;
+      color: #c0392b;
+      display: none;
+    }
+
+    .note {
+      margin-top: 2rem;
+      font-size: 12px;
+      color: #999;
+      font-weight: 300;
+      line-height: 1.6;
+      border-top: 1px solid #eee;
+      padding-top: 1.5rem;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: -2px;
+      margin-right: 6px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p class="label">Ōtautahi Christchurch</p>
+    <h1>How does this place make you feel?</h1>
+    <p class="subtitle">Your words matter. This is a safe space to share your experience of the city — a street, a park, a corner you know.</p>
+
+    <textarea id="input" placeholder="Describe a place in Ōtautahi — what does it feel like to be there?"></textarea>
+    <br>
+    <button id="btn" onclick="submitVoice()">Share your voice</button>
+
+    <div id="error" class="error"></div>
+
+    <div id="response-box" class="response-box">
+      <hr class="divider" style="margin:0 0 1rem;">
+      <div class="response-label">The tool listens</div>
+      <div class="response-text" id="response-text"></div>
+    </div>
+
+    <p class="note">This tool is part of a research project listening to community voices in Ōtautahi Christchurch. Developed by <a href="https://artecturestudio.com" style="color:#1D9E75;">Carolina Nery</a> as part of a PhD in Landscape Architecture at Lincoln University NZ.</p>
+  </div>
+
+  <script>
+    async function submitVoice() {
+      const input = document.getElementById('input').value.trim();
+      if (!input) return;
+
+      const btn = document.getElementById('btn');
+      const responseBox = document.getElementById('response-box');
+      const responseText = document.getElementById('response-text');
+      const errorDiv = document.getElementById('error');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Listening...';
+      responseBox.style.display = 'none';
+      errorDiv.style.display = 'none';
+
+      try {
+        const res = await fetch('https://community-voice-tool.onrender.com/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: input })
+        });
+
+        if (!res.ok) throw new Error('Server error');
+        const data = await res.json();
+        responseText.textContent = data.response;
+        responseBox.style.display = 'block';
+      } catch (err) {
+        errorDiv.textContent = 'Something went wrong — please try again in a moment.';
+        errorDiv.style.display = 'block';
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = 'Share your voice';
+    }
+
+    document.getElementById('input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && e.ctrlKey) submitVoice();
+    });
+  </script>
+</body>
+</html>
