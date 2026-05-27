@@ -19,6 +19,145 @@
       padding: 2rem;
     }
 
+    /* ── CONSENT OVERLAY ── */
+    #consent-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(250,249,247,0.97);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .consent-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 14px;
+      max-width: 560px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+    }
+
+    .consent-header {
+      background: #f0faf6;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #d4ede3;
+    }
+
+    .consent-header p {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1D9E75;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .consent-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: #1a1a1a;
+    }
+
+    .consent-body {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .consent-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .consent-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      width: 22px;
+      text-align: center;
+    }
+
+    .consent-item-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+    }
+
+    .consent-item-text {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .consent-footer {
+      padding: 1.1rem 1.5rem;
+      background: #f9f9f9;
+      border-top: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .consent-check-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    .consent-check-label input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+      accent-color: #1D9E75;
+      width: 15px;
+      height: 15px;
+    }
+
+    #consent-btn {
+      margin-top: 4px;
+      background: #1D9E75;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 11px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.4;
+      pointer-events: none;
+      transition: opacity 0.2s, background 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    #consent-btn.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #consent-btn.active:hover { background: #0F6E56; }
+
+    .consent-contact {
+      font-size: 11px;
+      color: #aaa;
+      text-align: center;
+      font-weight: 300;
+    }
+
+    /* ── MAIN TOOL ── */
     .container {
       max-width: 620px;
       width: 100%;
@@ -211,6 +350,81 @@
   </style>
 </head>
 <body>
+
+  <!-- ── CONSENT POP-UP ── -->
+  <div id="consent-overlay">
+    <div class="consent-card">
+
+      <div class="consent-header">
+        <p>Research Participation Agreement</p>
+        <h2>Before you share your voice</h2>
+      </div>
+
+      <div class="consent-body">
+
+        <div class="consent-item">
+          <span class="consent-icon">🎓</span>
+          <div>
+            <p class="consent-item-title">Research purpose only</p>
+            <p class="consent-item-text">This tool is part of an academic PhD research project. Your responses will be used solely for research about place and community experience in Ōtautahi Christchurch.</p>
+          </div>
+        </div>
+
+        <div class="consent-item">
+          <span class="consent-icon">🔒</span>
+          <div>
+            <p class="consent-item-title">Your privacy is protected</p>
+            <p class="consent-item-text">Please do not share your name, address, or personal details. Responses are stored securely and reported only as group findings — no individual will be identified.</p>
+          </div>
+        </div>
+
+        <div class="consent-item">
+          <span class="consent-icon">🤖</span>
+          <div>
+            <p class="consent-item-title">This tool uses AI — responses may vary</p>
+            <p class="consent-item-text">The researcher does not control or predict every AI-generated response. If something feels wrong, please stop and contact the researcher directly.</p>
+          </div>
+        </div>
+
+        <div class="consent-item">
+          <span class="consent-icon">📊</span>
+          <div>
+            <p class="consent-item-title">How your data will be used</p>
+            <p class="consent-item-text">Responses contribute to qualitative (stories, meanings) and quantitative (patterns, counts) research. Data may be published in academic work, always anonymised and in aggregate.</p>
+          </div>
+        </div>
+
+        <div class="consent-item">
+          <span class="consent-icon">🚪</span>
+          <div>
+            <p class="consent-item-title">Participation is voluntary</p>
+            <p class="consent-item-text">You can stop at any time. If you'd like your response removed, contact the researcher and it will be deleted.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="consent-footer">
+
+        <label class="consent-check-label">
+          <input type="checkbox" id="check-consent" onchange="updateConsentBtn()">
+          <span>I understand this is a research tool and I consent to my anonymised response being used for academic research purposes.</span>
+        </label>
+
+        <label class="consent-check-label">
+          <input type="checkbox" id="check-respect" onchange="updateConsentBtn()">
+          <span>I agree to engage respectfully. I will not use racist, discriminatory, or harmful language in my responses.</span>
+        </label>
+
+        <button id="consent-btn" onclick="grantAccess()">I agree — take me to the tool</button>
+
+        <p class="consent-contact">Questions? Contact: carollnery@yahoo.com</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── MAIN TOOL ── -->
   <div class="container">
     <p class="label">Ōtautahi Christchurch</p>
     <h1>How does this place make you feel?</h1>
@@ -232,6 +446,19 @@
         </select>
       </div>
       <div class="field-group">
+        <span class="field-label">Age group</span>
+        <select id="age_group">
+          <option value="under 18">Under 18</option>
+          <option value="18–24">18–24</option>
+          <option value="25–34">25–34</option>
+          <option value="35–44">35–44</option>
+          <option value="45–54">45–54</option>
+          <option value="55–64">55–64</option>
+          <option value="65+">65 or older</option>
+          <option value="prefer not to say">Prefer not to say</option>
+        </select>
+      </div>
+      <div class="field-group">
         <span class="field-label">Language</span>
         <select id="language">
           <option value="English">English</option>
@@ -240,7 +467,7 @@
           <option value="Other">Other</option>
         </select>
       </div>
-      <div class="field-group full">
+      <div class="field-group">
         <span class="field-label">How does it feel?</span>
         <select id="affect_tag">
           <option value="belonging">Belonging</option>
@@ -273,6 +500,26 @@
   </div>
 
   <script>
+    // ── CONSENT LOGIC ──
+    function updateConsentBtn() {
+      const c1 = document.getElementById('check-consent').checked;
+      const c2 = document.getElementById('check-respect').checked;
+      const btn = document.getElementById('consent-btn');
+      if (c1 && c2) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+
+    function grantAccess() {
+      const overlay = document.getElementById('consent-overlay');
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.4s ease';
+      setTimeout(() => overlay.style.display = 'none', 400);
+    }
+
+    // ── TOOL LOGIC ──
     async function submitVoice() {
       const input = document.getElementById('input').value.trim();
       if (!input) return;
@@ -295,6 +542,7 @@
             question: input,
             place: document.getElementById('place').value || 'unspecified',
             contributor_role: document.getElementById('contributor_role').value,
+            age_group: document.getElementById('age_group').value,
             language: document.getElementById('language').value,
             affect_tag: document.getElementById('affect_tag').value
           })
