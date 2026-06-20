@@ -8,15 +8,155 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --gold: #C9961A;
+      --gold-dark: #9e7614;
+      --gold-light: rgba(201,150,26,0.1);
+      --gold-bg: #fdf8ee;
+      --gold-border: #e8d5a3;
+      --ink: #1a1a1a;
+    }
+
+    html, body { height: 100%; }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: #faf9f7;
-      color: #1a1a1a;
-      min-height: 100vh;
+      color: var(--ink);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ════════════════ SITE HEADER ════════════════ */
+    .site-header {
+      width: 100%;
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      flex: 0 0 auto;
+    }
+
+    .site-header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .site-logo img {
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    .site-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .site-nav a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+
+    .site-nav a:hover { color: var(--gold); }
+
+    .site-nav .has-submenu {
+      position: relative;
+    }
+
+    .site-nav .has-submenu > a::after {
+      content: '▾';
+      font-size: 10px;
+      margin-left: 5px;
+      color: #999;
+    }
+
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 12px;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      min-width: 280px;
+      padding: 8px;
+      z-index: 100;
+    }
+
+    .has-submenu:hover .submenu { display: block; }
+
+    .submenu a {
+      display: block;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 400;
+      border-radius: 6px;
+      white-space: normal;
+      line-height: 1.4;
+    }
+
+    .submenu a:hover { background: var(--gold-bg); color: var(--gold-dark); }
+
+    /* Hamburger button — hidden on desktop */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      flex-direction: column;
+      gap: 5px;
+      width: 32px;
+      height: 32px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ════════════════ MAIN CONTENT (your existing tool) ════════════════ */
+    main {
+      flex: 1 1 auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 3rem 2rem;
     }
 
     /* ── CONSENT OVERLAY ── */
@@ -26,6 +166,7 @@
       background: rgba(250,249,247,0.97);
       z-index: 1000;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
@@ -37,21 +178,25 @@
       border-radius: 14px;
       max-width: 560px;
       width: 100%;
-      overflow: hidden;
       box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100dvh - 3rem);
+      overflow: hidden;
     }
 
     .consent-header {
-      background: #f0faf6;
+      background: var(--gold-bg);
       padding: 1.25rem 1.5rem;
-      border-bottom: 1px solid #d4ede3;
+      border-bottom: 1px solid var(--gold-border);
+      flex: 0 0 auto;
     }
 
     .consent-header p {
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #1D9E75;
+      color: var(--gold);
       font-weight: 500;
       margin-bottom: 4px;
     }
@@ -60,7 +205,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 20px;
       font-weight: 400;
-      color: #1a1a1a;
+      color: var(--ink);
     }
 
     .consent-body {
@@ -68,6 +213,9 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1 1 auto;
     }
 
     .consent-item {
@@ -87,7 +235,7 @@
     .consent-item-title {
       font-size: 13px;
       font-weight: 500;
-      color: #1a1a1a;
+      color: var(--ink);
       margin-bottom: 2px;
     }
 
@@ -105,6 +253,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      flex: 0 0 auto;
     }
 
     .consent-check-label {
@@ -113,21 +262,21 @@
       gap: 10px;
       cursor: pointer;
       font-size: 13px;
-      color: #1a1a1a;
+      color: var(--ink);
       line-height: 1.6;
     }
 
     .consent-check-label input[type="checkbox"] {
       margin-top: 3px;
       flex-shrink: 0;
-      accent-color: #1D9E75;
+      accent-color: var(--gold);
       width: 15px;
       height: 15px;
     }
 
     #consent-btn {
       margin-top: 4px;
-      background: #1D9E75;
+      background: var(--gold);
       color: #fff;
       border: none;
       border-radius: 6px;
@@ -143,12 +292,8 @@
       letter-spacing: 0.02em;
     }
 
-    #consent-btn.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    #consent-btn.active:hover { background: #0F6E56; }
+    #consent-btn.active { opacity: 1; pointer-events: auto; }
+    #consent-btn.active:hover { background: var(--gold-dark); }
 
     .consent-contact {
       font-size: 11px;
@@ -157,17 +302,14 @@
       font-weight: 300;
     }
 
-    /* ── MAIN TOOL ── */
-    .container {
-      max-width: 620px;
-      width: 100%;
-    }
+    /* ── TOOL FORM ── */
+    .container { max-width: 620px; width: 100%; }
 
     .label {
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #1D9E75;
+      color: var(--gold);
       font-weight: 500;
       margin-bottom: 1rem;
     }
@@ -178,7 +320,7 @@
       font-weight: 400;
       line-height: 1.3;
       margin-bottom: 0.5rem;
-      color: #1a1a1a;
+      color: var(--ink);
     }
 
     .subtitle {
@@ -196,15 +338,8 @@
       margin-bottom: 12px;
     }
 
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .field-group.full {
-      grid-column: 1 / -1;
-    }
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-group.full { grid-column: 1 / -1; }
 
     .field-label {
       font-size: 11px;
@@ -220,8 +355,8 @@
       border-radius: 8px;
       padding: 10px 14px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      color: #1a1a1a;
+      font-size: 16px;
+      color: var(--ink);
       background: #fff;
       transition: border-color 0.2s;
       appearance: none;
@@ -229,14 +364,11 @@
 
     input[type="text"]:focus, select:focus {
       outline: none;
-      border-color: #1D9E75;
-      box-shadow: 0 0 0 3px rgba(29,158,117,0.1);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-light);
     }
 
-    input[type="text"]::placeholder {
-      color: #bbb;
-      font-weight: 300;
-    }
+    input[type="text"]::placeholder { color: #bbb; font-weight: 300; }
 
     select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23999' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
@@ -253,8 +385,8 @@
       border-radius: 8px;
       padding: 16px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      color: #1a1a1a;
+      font-size: 16px;
+      color: var(--ink);
       background: #fff;
       resize: vertical;
       line-height: 1.6;
@@ -263,19 +395,15 @@
 
     textarea:focus {
       outline: none;
-      border-color: #1D9E75;
-      box-shadow: 0 0 0 3px rgba(29,158,117,0.1);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-light);
     }
 
-    textarea::placeholder {
-      color: #aaa;
-      font-style: italic;
-      font-weight: 300;
-    }
+    textarea::placeholder { color: #aaa; font-style: italic; font-weight: 300; }
 
     button {
       margin-top: 12px;
-      background: #1D9E75;
+      background: var(--gold);
       color: #fff;
       border: none;
       border-radius: 6px;
@@ -288,13 +416,13 @@
       transition: background 0.2s;
     }
 
-    button:hover { background: #0F6E56; }
+    button:hover { background: var(--gold-dark); }
     button:disabled { background: #ccc; cursor: not-allowed; }
 
     .response-box {
       padding: 1.25rem 1.5rem;
-      border-left: 3px solid #1D9E75;
-      background: #f0faf6;
+      border-left: 3px solid var(--gold);
+      background: var(--gold-bg);
       border-radius: 0 8px 8px 0;
       display: none;
       margin-top: 1.5rem;
@@ -303,7 +431,7 @@
     .response-label {
       font-size: 11px;
       letter-spacing: 0.08em;
-      color: #1D9E75;
+      color: var(--gold);
       text-transform: uppercase;
       font-weight: 500;
       margin-bottom: 10px;
@@ -313,16 +441,11 @@
       font-family: 'Playfair Display', serif;
       font-size: 17px;
       line-height: 1.8;
-      color: #1a1a1a;
+      color: var(--ink);
       font-style: italic;
     }
 
-    .error {
-      margin-top: 1rem;
-      font-size: 13px;
-      color: #c0392b;
-      display: none;
-    }
+    .error { margin-top: 1rem; font-size: 13px; color: #c0392b; display: none; }
 
     .note {
       margin-top: 2rem;
@@ -347,169 +470,398 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ════════════════ SITE FOOTER ════════════════ */
+    .site-footer {
+      width: 100%;
+      background: var(--ink);
+      color: #ddd;
+      flex: 0 0 auto;
+    }
+
+    .site-footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+
+    .footer-block {
+      min-width: 200px;
+      flex: 1 1 200px;
+    }
+
+    .footer-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .footer-block a {
+      display: block;
+      color: #ddd;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 2;
+      transition: color 0.2s;
+    }
+
+    .footer-block a:hover { color: var(--gold); }
+
+    .footer-block p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #aaa;
+      font-weight: 300;
+    }
+
+    .site-footer-bottom {
+      border-top: 1px solid #333;
+      text-align: center;
+      padding: 1.25rem 1.5rem;
+      font-size: 11px;
+      color: #888;
+      font-weight: 300;
+    }
+
+    /* ════════════════ MOBILE ════════════════ */
+    @media (max-width: 860px) {
+      .site-nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100dvh;
+        width: min(320px, 80vw);
+        background: #fff;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 5rem 1.5rem 2rem;
+        box-shadow: -8px 0 24px rgba(0,0,0,0.08);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 200;
+        overflow-y: auto;
+      }
+
+      .site-nav.open { transform: translateX(0); }
+
+      .site-nav a {
+        padding: 12px 0;
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 16px;
+      }
+
+      .site-nav .has-submenu > a::after { float: right; }
+
+      .submenu {
+        display: none;
+        position: static;
+        box-shadow: none;
+        border: none;
+        margin-top: 0;
+        padding: 0 0 0 1rem;
+        min-width: 0;
+      }
+
+      .has-submenu.open .submenu { display: block; }
+      .has-submenu:hover .submenu { display: none; }
+      .has-submenu.open:hover .submenu { display: block; }
+
+      .nav-toggle { display: flex; }
+
+      .nav-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 150;
+      }
+
+      .nav-overlay.open { display: block; }
+    }
+
+    @media (max-width: 600px) {
+      .site-header-inner { padding: 0.85rem 1.25rem; }
+      .site-logo img { height: 32px; }
+      .site-logo-text { font-size: 16px; }
+
+      main {
+        padding: 1.5rem 1rem 2rem;
+        align-items: flex-start;
+      }
+
+      #consent-overlay { padding: 0; justify-content: flex-start; }
+
+      .consent-card {
+        border-radius: 0;
+        max-height: 100dvh;
+        height: 100dvh;
+        border: none;
+      }
+
+      .consent-body { padding: 1rem 1.25rem; }
+
+      .consent-footer {
+        padding: 1rem 1.25rem;
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+      }
+
+      h1 { font-size: 22px; }
+
+      .fields-row { grid-template-columns: 1fr; }
+      .field-group.full { grid-column: 1; }
+
+      button { width: 100%; padding: 14px 20px; font-size: 15px; }
+
+      .site-footer-inner { flex-direction: column; gap: 1.75rem; padding: 2rem 1.25rem 1.5rem; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- ── CONSENT POP-UP ── -->
-  <div id="consent-overlay">
-    <div class="consent-card">
+  <!-- ════════════════ SITE HEADER ════════════════ -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-logo" href="https://artecturestudio.com/">
+        <img src="https://artecturestudio.com/wp-content/uploads/2023/05/logo-artecture-design-png.png" alt="Artecture">
+      </a>
 
-      <div class="consent-header">
-        <p>Research Participation Agreement</p>
-        <h2>Before you share your voice</h2>
-      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
 
-      <div class="consent-body">
+      <nav class="site-nav" id="site-nav">
+        <a href="https://artecturestudio.com/">Home</a>
+        <a href="https://artecturestudio.com/about/">About</a>
 
-        <div class="consent-item">
-          <span class="consent-icon">🎓</span>
-          <div>
-            <p class="consent-item-title">Research purpose only</p>
-            <p class="consent-item-text">This tool is part of an academic PhD research project. Your responses will be used solely for research about place and community experience in Ōtautahi Christchurch.</p>
+        <div class="has-submenu" id="projects-submenu">
+          <a href="https://artecturestudio.com/projects/" id="projects-trigger">Projects</a>
+          <div class="submenu">
+            <a href="https://artecturestudio.com/artful-letters-exhibition/">Artful Letters Exhibition</a>
+            <a href="https://artecturestudio.com/inclusion-immigrant-women-through-brazilian-culture/">Inclusion of Immigrant Women through Brazilian Culture</a>
+            <a href="https://artecturestudio.com/events-and-workshops/">Bloco de Carnaval Ōtautahi</a>
+            <a href="https://artecturestudio.com/linwood-cultural-day/">Linwood Cultural Day 2025 and 2026</a>
+            <a href="https://artecturestudio.com/tupinikeen-samba-club/">Tupinikeen Samba Club</a>
+            <a href="https://artecturestudio.com/beatroots/">BeatRoots</a>
+            <a href="https://artecturestudio.com/carnaval-2025-and-2026/">Carnaval at Riverside Market &amp; Casa Publica</a>
           </div>
         </div>
 
-        <div class="consent-item">
-          <span class="consent-icon">🔒</span>
-          <div>
-            <p class="consent-item-title">Your privacy is protected</p>
-            <p class="consent-item-text">Please do not share your name, address, or personal details. Responses are stored securely and reported only as group findings — no individual will be identified.</p>
-          </div>
-        </div>
+        <a href="https://artecturestudio.com/our-approach/">Our Approach</a>
+        <a href="https://artecturestudio.com/services/">Services</a>
+        <a href="https://artecturestudio.com/contact/">Contact</a>
+        <a href="https://artecturestudio.com/id-urbano-podcast/">ID Urbano Podcast</a>
+      </nav>
 
-        <div class="consent-item">
-          <span class="consent-icon">🤖</span>
-          <div>
-            <p class="consent-item-title">This tool uses AI — responses may vary</p>
-            <p class="consent-item-text">The researcher does not control or predict every AI-generated response. If something feels wrong, please stop and contact the researcher directly.</p>
-          </div>
-        </div>
-
-        <div class="consent-item">
-          <span class="consent-icon">📊</span>
-          <div>
-            <p class="consent-item-title">How your data will be used</p>
-            <p class="consent-item-text">Responses contribute to qualitative (stories, meanings) and quantitative (patterns, counts) research. Data may be published in academic work, always anonymised and in aggregate.</p>
-          </div>
-        </div>
-
-        <div class="consent-item">
-          <span class="consent-icon">🚪</span>
-          <div>
-            <p class="consent-item-title">Participation is voluntary</p>
-            <p class="consent-item-text">You can stop at any time. If you'd like your response removed, contact the researcher and it will be deleted.</p>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="consent-footer">
-
-        <label class="consent-check-label">
-          <input type="checkbox" id="check-consent" onchange="updateConsentBtn()">
-          <span>I understand this is a research tool and I consent to my anonymised response being used for academic research purposes.</span>
-        </label>
-
-        <label class="consent-check-label">
-          <input type="checkbox" id="check-respect" onchange="updateConsentBtn()">
-          <span>I agree to engage respectfully. I will not use racist, discriminatory, or harmful language in my responses.</span>
-        </label>
-
-        <button id="consent-btn" onclick="grantAccess()">I agree — take me to the tool</button>
-
-        <p class="consent-contact">Questions? Contact: carollnery@yahoo.com</p>
-      </div>
-
+      <div class="nav-overlay" id="nav-overlay"></div>
     </div>
-  </div>
+  </header>
 
-  <!-- ── MAIN TOOL ── -->
-  <div class="container">
-    <p class="label">Ōtautahi Christchurch</p>
-    <h1>How does this place make you feel?</h1>
-    <p class="subtitle">Your words matter. This is a safe space to share your experience of the city — a street, a park, a corner you know.</p>
+  <!-- ════════════════ MAIN: YOUR TOOL ════════════════ -->
+  <main>
 
-    <div class="fields-row">
-      <div class="field-group full">
-        <span class="field-label">Place</span>
-        <input type="text" id="place" placeholder="e.g. Hagley Park, Linwood, the river...">
-      </div>
-      <div class="field-group">
-        <span class="field-label">Who are you?</span>
-        <select id="contributor_role">
-          <option value="community member">Community member</option>
-          <option value="researcher">Researcher</option>
-          <option value="artist">Artist</option>
-          <option value="specialist">Specialist</option>
-          <option value="anonymous">Prefer not to say</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <span class="field-label">Age group</span>
-        <select id="age_group">
-          <option value="under 18">Under 18</option>
-          <option value="18–24">18–24</option>
-          <option value="25–34">25–34</option>
-          <option value="35–44">35–44</option>
-          <option value="45–54">45–54</option>
-          <option value="55–64">55–64</option>
-          <option value="65+">65 or older</option>
-          <option value="prefer not to say">Prefer not to say</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <span class="field-label">Language</span>
-        <select id="language">
-          <option value="English">English</option>
-          <option value="Portuguese">Portuguese</option>
-          <option value="Te Reo Māori">Te Reo Māori</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <span class="field-label">How does it feel?</span>
-        <select id="affect_tag">
-          <option value="belonging">Belonging</option>
-          <option value="joy">Joy</option>
-          <option value="grief">Grief</option>
-          <option value="loss">Loss</option>
-          <option value="hope">Hope</option>
-          <option value="fear">Fear</option>
-          <option value="peace">Peace</option>
-          <option value="tension">Tension</option>
-          <option value="memory">Memory</option>
-          <option value="displacement">Displacement</option>
-          <option value="other">Other</option>
-        </select>
+    <!-- CONSENT POP-UP -->
+    <div id="consent-overlay">
+      <div class="consent-card">
+
+        <div class="consent-header">
+          <p>Research Participation Agreement</p>
+          <h2>Before you share your voice</h2>
+        </div>
+
+        <div class="consent-body">
+
+          <div class="consent-item">
+            <span class="consent-icon">🎓</span>
+            <div>
+              <p class="consent-item-title">Research purpose only</p>
+              <p class="consent-item-text">This tool is part of an academic PhD research project. Your responses will be used solely for research about place and community experience in Ōtautahi Christchurch.</p>
+            </div>
+          </div>
+
+          <div class="consent-item">
+            <span class="consent-icon">🔒</span>
+            <div>
+              <p class="consent-item-title">Your privacy is protected</p>
+              <p class="consent-item-text">Please do not share your name, address, or personal details. Responses are stored securely and reported only as group findings — no individual will be identified.</p>
+            </div>
+          </div>
+
+          <div class="consent-item">
+            <span class="consent-icon">🌐</span>
+            <div>
+              <p class="consent-item-title">How your message is processed</p>
+              <p class="consent-item-text">This tool uses an open-source AI model to generate responses. Your message is processed through a secure external server located outside New Zealand. No personally identifying information is retained by the AI service.</p>
+            </div>
+          </div>
+
+          <div class="consent-item">
+            <span class="consent-icon">🤖</span>
+            <div>
+              <p class="consent-item-title">This tool uses AI — responses may vary</p>
+              <p class="consent-item-text">The researcher does not control or predict every AI-generated response. If something feels wrong, please stop and contact the researcher directly.</p>
+            </div>
+          </div>
+
+          <div class="consent-item">
+            <span class="consent-icon">📊</span>
+            <div>
+              <p class="consent-item-title">How your data will be used</p>
+              <p class="consent-item-text">Responses contribute to qualitative (stories, meanings) and quantitative (patterns, counts) research. Data may be published in academic work, always anonymised and in aggregate.</p>
+            </div>
+          </div>
+
+          <div class="consent-item">
+            <span class="consent-icon">🚪</span>
+            <div>
+              <p class="consent-item-title">Participation is voluntary</p>
+              <p class="consent-item-text">You can stop at any time. If you'd like your response removed, contact the researcher and it will be deleted.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="consent-footer">
+
+          <label class="consent-check-label">
+            <input type="checkbox" id="check-consent" onchange="updateConsentBtn()">
+            <span>I understand this is a research tool, that my message will be processed through an external AI service, and I consent to my anonymised response being used for academic research purposes.</span>
+          </label>
+
+          <label class="consent-check-label">
+            <input type="checkbox" id="check-respect" onchange="updateConsentBtn()">
+            <span>I agree to engage respectfully. I will not use racist, discriminatory, or harmful language in my responses.</span>
+          </label>
+
+          <button id="consent-btn" onclick="grantAccess()">I agree — take me to the tool</button>
+
+          <p class="consent-contact">Questions? Contact: carollnery@yahoo.com</p>
+        </div>
+
       </div>
     </div>
 
-    <textarea id="input" placeholder="Describe a place in Ōtautahi — what does it feel like to be there?"></textarea>
-    <br>
-    <button id="btn" onclick="submitVoice()">Share your voice</button>
+    <!-- TOOL FORM -->
+    <div class="container">
+      <p class="label">Ōtautahi Christchurch</p>
+      <h1>How does this place make you feel?</h1>
+      <p class="subtitle">Your words matter. This is a safe space to share your experience of the city — a street, a park, a corner you know.</p>
 
-    <div id="error" class="error"></div>
+      <div class="fields-row">
+        <div class="field-group full">
+          <span class="field-label">Place</span>
+          <input type="text" id="place" placeholder="e.g. Hagley Park, Linwood, the river...">
+        </div>
+        <div class="field-group">
+          <span class="field-label">Who are you?</span>
+          <select id="contributor_role">
+            <option value="community member">Community member</option>
+            <option value="researcher">Researcher</option>
+            <option value="artist">Artist</option>
+            <option value="specialist">Specialist</option>
+            <option value="anonymous">Prefer not to say</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <span class="field-label">Age group</span>
+          <select id="age_group">
+            <option value="under 18">Under 18</option>
+            <option value="18–24">18–24</option>
+            <option value="25–34">25–34</option>
+            <option value="35–44">35–44</option>
+            <option value="45–54">45–54</option>
+            <option value="55–64">55–64</option>
+            <option value="65+">65 or older</option>
+            <option value="prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <span class="field-label">Language</span>
+          <select id="language">
+            <option value="English">English</option>
+            <option value="Portuguese">Portuguese</option>
+            <option value="Te Reo Māori">Te Reo Māori</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <span class="field-label">How does it feel?</span>
+          <select id="affect_tag">
+            <option value="belonging">Belonging</option>
+            <option value="joy">Joy</option>
+            <option value="grief">Grief</option>
+            <option value="loss">Loss</option>
+            <option value="hope">Hope</option>
+            <option value="fear">Fear</option>
+            <option value="peace">Peace</option>
+            <option value="tension">Tension</option>
+            <option value="memory">Memory</option>
+            <option value="displacement">Displacement</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
 
-    <div id="response-box" class="response-box">
-      <div class="response-label">The tool listens</div>
-      <div class="response-text" id="response-text"></div>
+      <textarea id="input" placeholder="Describe a place in Ōtautahi — what does it feel like to be there?"></textarea>
+      <br>
+      <button id="btn" onclick="submitVoice()">Share your voice</button>
+
+      <div id="error" class="error"></div>
+
+      <div id="response-box" class="response-box">
+        <div class="response-label">The tool listens</div>
+        <div class="response-text" id="response-text"></div>
+      </div>
+
+      <p class="note">This tool is part of a research project listening to community voices in Ōtautahi Christchurch. Developed by <a href="https://artecturestudio.com" style="color:var(--gold);">Carolina Nery</a> as part of a PhD in Landscape Architecture at Lincoln University NZ.</p>
     </div>
 
-    <p class="note">This tool is part of a research project listening to community voices in Ōtautahi Christchurch. Developed by <a href="https://artecturestudio.com" style="color:#1D9E75;">Carolina Nery</a> as part of a PhD in Landscape Architecture at Lincoln University NZ.</p>
-  </div>
+  </main>
+
+  <!-- ════════════════ SITE FOOTER ════════════════ -->
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+
+      <div class="footer-block">
+        <p class="footer-eyebrow">Artecture</p>
+        <p>Community Intelligence, Research and Emerging Technology. People intelligence for better decisions.</p>
+      </div>
+
+      <div class="footer-block">
+        <p class="footer-eyebrow">Portfolios</p>
+        <a href="https://artecturestudio.com/porfolio/">Carolina Nery's Portfolio</a>
+        <a href="https://artecturestudio.com/ricardo-stuani-portfolio/">Ricardo Stuani's Portfolio</a>
+      </div>
+
+      <div class="footer-block">
+        <p class="footer-eyebrow">Get in touch</p>
+        <a href="mailto:admin@artecturestudio.com">admin@artecturestudio.com</a>
+        <a href="https://www.instagram.com/artecture.studio/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.behance.net/artecture" target="_blank" rel="noopener">Behance</a>
+        <a href="https://www.twitter.com/@Artecturestudio" target="_blank" rel="noopener">Twitter</a>
+      </div>
+
+    </div>
+    <div class="site-footer-bottom">
+      &copy; Artecture — Community Voice Tool, part of a PhD research project at Lincoln University NZ.
+    </div>
+  </footer>
 
   <script>
-    // ── CONSENT LOGIC ──
     function updateConsentBtn() {
       const c1 = document.getElementById('check-consent').checked;
       const c2 = document.getElementById('check-respect').checked;
       const btn = document.getElementById('consent-btn');
-      if (c1 && c2) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
+      if (c1 && c2) { btn.classList.add('active'); }
+      else { btn.classList.remove('active'); }
     }
 
     function grantAccess() {
@@ -519,7 +871,6 @@
       setTimeout(() => overlay.style.display = 'none', 400);
     }
 
-    // ── TOOL LOGIC ──
     async function submitVoice() {
       const input = document.getElementById('input').value.trim();
       if (!input) return;
@@ -563,6 +914,36 @@
 
     document.getElementById('input').addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && e.ctrlKey) submitVoice();
+    });
+
+    /* ── Mobile nav toggle ── */
+    const navToggle = document.getElementById('nav-toggle');
+    const siteNav = document.getElementById('site-nav');
+    const navOverlay = document.getElementById('nav-overlay');
+    const projectsSubmenu = document.getElementById('projects-submenu');
+    const projectsTrigger = document.getElementById('projects-trigger');
+
+    function closeNav() {
+      navToggle.classList.remove('open');
+      siteNav.classList.remove('open');
+      navOverlay.classList.remove('open');
+      projectsSubmenu.classList.remove('open');
+    }
+
+    navToggle.addEventListener('click', function() {
+      const isOpen = siteNav.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navOverlay.classList.toggle('open', isOpen);
+      if (!isOpen) projectsSubmenu.classList.remove('open');
+    });
+
+    navOverlay.addEventListener('click', closeNav);
+
+    projectsTrigger.addEventListener('click', function(e) {
+      if (window.innerWidth <= 860) {
+        e.preventDefault();
+        projectsSubmenu.classList.toggle('open');
+      }
     });
   </script>
 </body>
