@@ -349,6 +349,39 @@
       font-weight: 500;
     }
 
+    .affect-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .affect-suggestions-label {
+      font-size: 12px;
+      color: #aaa;
+      font-weight: 300;
+      margin-right: 2px;
+    }
+
+    .affect-chip {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--gold-dark);
+      background: var(--gold-bg);
+      border: 1px solid var(--gold-border);
+      border-radius: 999px;
+      padding: 4px 12px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .affect-chip:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+
     input[type="text"], select {
       width: 100%;
       border: 1px solid #ddd;
@@ -792,21 +825,19 @@
             <option value="Other">Other</option>
           </select>
         </div>
-        <div class="field-group">
+        <div class="field-group full">
           <span class="field-label">How does it feel?</span>
-          <select id="affect_tag">
-            <option value="belonging">Belonging</option>
-            <option value="joy">Joy</option>
-            <option value="grief">Grief</option>
-            <option value="loss">Loss</option>
-            <option value="hope">Hope</option>
-            <option value="fear">Fear</option>
-            <option value="peace">Peace</option>
-            <option value="tension">Tension</option>
-            <option value="memory">Memory</option>
-            <option value="displacement">Displacement</option>
-            <option value="other">Other</option>
-          </select>
+          <input type="text" id="affect_tag" placeholder="any word, in any language" autocomplete="off">
+          <div class="affect-suggestions">
+            <span class="affect-suggestions-label">e.g.</span>
+            <button type="button" class="affect-chip" onclick="fillAffect(this)">belonging</button>
+            <button type="button" class="affect-chip" onclick="fillAffect(this)">joy</button>
+            <button type="button" class="affect-chip" onclick="fillAffect(this)">grief</button>
+            <button type="button" class="affect-chip" onclick="fillAffect(this)">hope</button>
+            <button type="button" class="affect-chip" onclick="fillAffect(this)">tension</button>
+            <button type="button" class="affect-chip" onclick="fillAffect(this)">saudade</button>
+            <button type="button" class="affect-chip" onclick="fillAffect(this)">whakapapa</button>
+          </div>
         </div>
       </div>
 
@@ -856,6 +887,10 @@
   </footer>
 
   <script>
+    function fillAffect(chipEl) {
+      document.getElementById('affect_tag').value = chipEl.textContent;
+    }
+
     function updateConsentBtn() {
       const c1 = document.getElementById('check-consent').checked;
       const c2 = document.getElementById('check-respect').checked;
